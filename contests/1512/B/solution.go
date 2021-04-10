@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"os"
 	"strconv"
@@ -140,7 +141,11 @@ func isPointsInPlaneY(firstX, _, secondX, _ int) bool {
 	return firstX == secondX
 }
 
+var buf bytes.Buffer
+
 func printMatrix(firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY, size int) {
+	buf.Reset()
+
 	for y := 0; y < size; y++ {
 		for x := 0; x < size; x++ {
 			switch {
@@ -148,12 +153,14 @@ func printMatrix(firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, four
 				secondX == x && secondY == y,
 				thirdX == x && thirdY == y,
 				fourthX == x && fourthY == y:
-				fmt.Print("*")
+				buf.WriteRune('*')
 			default:
-				fmt.Print(".")
+				buf.WriteRune('.')
 			}
 		}
 
-		fmt.Println()
+		buf.WriteRune('\n')
 	}
+
+	fmt.Print(buf.String())
 }
